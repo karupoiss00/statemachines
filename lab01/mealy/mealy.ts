@@ -128,7 +128,7 @@ function mealyToString(mealyStates: Array<MealyState>) {
 	sortMealyStates(mealyStates).forEach(mealy => {
 		lines[0] += `${mealy.name} `
 		let i = 1
-		for (const [_, transition] of mealy.transitions) {
+		for (const [, transition] of mealy.transitions) {
 			if (!lines[i])
 			{
 				lines.push('')
@@ -141,6 +141,28 @@ function mealyToString(mealyStates: Array<MealyState>) {
 	return lines
 }
 
+function createMealyViewData(mealyStates: Array<MealyState>): [Array<Object>, Array<Object>] {
+	let nodes = []
+	let edges = []
+
+	mealyStates.forEach((s, index) => {
+		nodes.push({
+			id: index,
+			label: s.name
+		})
+		for (const [input, next] of s.transitions) {
+			edges.push({
+				from: index,
+				to: mealyStates.findIndex(f => f.name === next.state.name),
+				label: `${input}/${next.signal}`,
+				length: 250,
+			})
+		}
+	})
+
+	return [nodes, edges]
+}
+
 export type {
 	MealyTransition,
 	MealyState
@@ -148,6 +170,7 @@ export type {
 
 export {
 	createMealyTable,
+	createMealyViewData,
 	convertMealyToMoore,
 	mealyToString,
 }
