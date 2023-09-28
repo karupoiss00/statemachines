@@ -1,0 +1,7 @@
+{
+  "name": "converter",
+  "type": "module",
+  "scripts": {
+    "run": "ts-node-esm converter.ts"
+  }
+}

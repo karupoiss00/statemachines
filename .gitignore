@@ -1,0 +1,6 @@
+/node_modules/
+/yarn-error.log
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/statemachines.iml
+/.idea/vcs.xml
