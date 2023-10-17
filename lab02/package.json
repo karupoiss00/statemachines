@@ -1,0 +1,7 @@
+{
+  "name": "minimizer",
+  "type": "module",
+  "scripts": {
+    "run": "ts-node-esm minimizer.ts"
+  }
+}

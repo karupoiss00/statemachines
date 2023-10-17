@@ -1,46 +1,5 @@
-import {MooreState} from "../moore/moore";
-
-type MealyTransition = {
-	state: MealyState,
-	signal: string,
-}
-
-type MealyState = {
-	name: string,
-	transitions: Map<string, MealyTransition>
-}
-
-function createMealyTable(input: Array<string>, colsCount: number, rowsCount: number): [Array<MealyState>, Map<string, MealyState>] {
-	const states: Array<MealyState> = []
-	const idxMealyStates: Map<string, MealyState> = new Map()
-
-	for (let i = 1; i <= colsCount; i++) {
-		states.push({
-			name: `s${i}`,
-			transitions: new Map()
-		})
-	}
-
-	const strTransitions = input.map(str => str.split(' '))
-
-	const initState = (state: MealyState, index: number) => {
-		for (let i = 0; i < rowsCount; i++)
-		{
-			const transition = strTransitions[i][index]
-			const [name, signal] = transition.split('/')
-			state.transitions.set(`x${i}`, {
-				state: states.find(s => s.name === name),
-				signal: signal,
-			})
-			idxMealyStates.set(state.name, state)
-		}
-	}
-
-	states.forEach(initState)
-
-	return [states, idxMealyStates]
-}
-
+import {MealyState} from "../../common/types/mealy";
+import {MooreState} from "../../common/types/moore.ts";
 
 function convertMealyToMoore(idxMealyStates: Map<string, MealyState>, mealiesStates: Array<MealyState>): [Map<string, MooreState>, Array<MooreState>] {
 	const [idxMoore, moores] = generateMooreStatesFromMealyStates(mealiesStates)
@@ -109,68 +68,6 @@ function isTransitionExist(filledTransitions: Map<string, string[]>, currentStat
 	return (filledTransitions.get(currentStateName) || []).includes(nextStateName);
 }
 
-function sortMealyStates(mealyStates: Array<MealyState>) {
-	const compare = (a: MealyState, b: MealyState) => {
-		if ( a.name < b.name ){
-			return -1;
-		}
-		if ( a.name > b.name ){
-			return 1;
-		}
-		return 0;
-	}
-
-	return mealyStates.sort(compare)
-}
-
-function mealyToString(mealyStates: Array<MealyState>) {
-	const lines = ['']
-	sortMealyStates(mealyStates).forEach(mealy => {
-		lines[0] += `${mealy.name} `
-		let i = 1
-		for (const [, transition] of mealy.transitions) {
-			if (!lines[i])
-			{
-				lines.push('')
-			}
-			lines[i] += `${transition.state.name}/${transition.signal} `
-			i++
-		}
-	})
-
-	return lines
-}
-
-function createMealyViewData(mealyStates: Array<MealyState>): [Array<Object>, Array<Object>] {
-	let nodes = []
-	let edges = []
-
-	mealyStates.forEach((s, index) => {
-		nodes.push({
-			id: index,
-			label: s.name
-		})
-		for (const [input, next] of s.transitions) {
-			edges.push({
-				from: index,
-				to: mealyStates.findIndex(f => f.name === next.state.name),
-				label: `${input}/${next.signal}`,
-				length: 250,
-			})
-		}
-	})
-
-	return [nodes, edges]
-}
-
-export type {
-	MealyTransition,
-	MealyState
-}
-
 export {
-	createMealyTable,
-	createMealyViewData,
 	convertMealyToMoore,
-	mealyToString,
 }
