@@ -32,19 +32,19 @@ function mealyToString(mealyStates: Array<MealyState>) {
     return lines
 }
 
-function createMealyViewData(mealyStates: Array<MealyState>): [Array<Object>, Array<Object>] {
+function createMealyViewData(mealyStates: Array<MealyState>, baseIndex = 0): [Array<Object>, Array<Object>] {
     let nodes = []
     let edges = []
 
     mealyStates.forEach((s, index) => {
         nodes.push({
-            id: index,
+            id: index + baseIndex,
             label: s.name
         })
         for (const [input, next] of s.transitions) {
             edges.push({
-                from: index,
-                to: mealyStates.findIndex(f => f.name === next.state.name),
+                from: index + baseIndex,
+                to: mealyStates.findIndex(f => f.name === next.state.name) + baseIndex,
                 label: `${input}/${next.signal}`,
                 length: 250,
             })

@@ -4,10 +4,12 @@ import {generateView} from "../common/view/generateView.ts";
 import {createMooreViewData, mooreToString} from "../common/view/moore.ts";
 import {createMealyTable, createMooreTable} from "../common/io/readStatemachine.ts";
 import {createMealyViewData, mealyToString} from "../common/view/mealy.ts";
+import {minimizeMealy} from "./mealy/mealy.ts";
+import {minimizeMoore} from "./moore/moore.ts";
 
 const INPUT_FILE_NAME = 'input.txt'
 const OUTPUT_FILE_NAME = 'output.txt'
-const OUTPUT_VIEW_FILE_NAME = './view/view.generated.js'
+const OUTPUT_VIEW_FILE_NAME = 'view.generated.js'
 
 function getMachineInfo(line: string) {
 	const [columnsStr, rowsStr, machineType] = line.split(' ')
@@ -30,32 +32,33 @@ const view = {
 }
 
 if (machineType === 'moore') {
-	const [states, map] = createMooreTable(inputLines, colsCount, rowsCount)
+	const [states] = createMooreTable(inputLines, colsCount, rowsCount)
+	const minimizedStates = minimizeMoore(states)
 
-	// minimize moore
+	outputLines = mooreToString(minimizedStates)
 
-	outputLines = mooreToString(states)
 	const [nodes, edges] = createMooreViewData(states)
-	view.edges = edges
-	view.nodes = nodes
+	const [minimizedNodes, minimizedEdges] = createMooreViewData(minimizedStates, nodes.length)
+
+	view.edges = [...edges, ...minimizedEdges]
+	view.nodes = [...nodes, ...minimizedNodes]
 }
 
 if (machineType === 'mealy') {
-	const [states, map] = createMealyTable(inputLines, colsCount, rowsCount)
+	const [states] = createMealyTable(inputLines, colsCount, rowsCount)
+	const minimizedStates = minimizeMealy(states)
 
-	// minimize mealy
+	outputLines = mealyToString(minimizedStates)
 
-	outputLines = mealyToString(states)
 	const [nodes, edges] = createMealyViewData(states)
-	view.edges = edges
-	view.nodes = nodes
+	const [minimizedNodes, minimizedEdges] = createMealyViewData(minimizedStates, nodes.length)
+	view.edges = [...edges, ...minimizedEdges]
+	view.nodes = [...nodes, ...minimizedNodes]
 }
 
 if (!outputLines.length) {
 	throw new Error('incorrect input data')
 }
-
-
 
 writeLines(OUTPUT_FILE_NAME, outputLines)
 writeLines(OUTPUT_VIEW_FILE_NAME, [generateView(view.nodes, view.edges)])
