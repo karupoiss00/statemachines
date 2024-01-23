@@ -1,3 +1,4 @@
-s2/y3s3/y3s1/y2
-3 2 1 
-2 3 2 
+s1 s2 s5 s6 s9 
+s2/y2 s1/y1 s6/y2 s1/y1 s5/y1 
+s2/y1 s2/y2 s2/y1 s9/y2 s9/y2 
+s5/y1 s2/y2 s1/y1 s6/y2 s5/y2 
