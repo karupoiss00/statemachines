@@ -1,5 +1,5 @@
-import {DeterministicAutomaton} from "./grammar";
-import {get} from "./readGrammar";
+import {DeterministicAutomaton} from "./grammar.ts";
+import {get} from "./readGrammar.ts";
 import * as path from "path";
 import * as fs from "fs";
 import {stringify} from "csv-stringify/sync";

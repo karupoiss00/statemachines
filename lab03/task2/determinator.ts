@@ -1,6 +1,6 @@
-import {WriteDeterministicAutomaton} from "../writeAutomaton";
-import {determinate} from "../task1/determinator";
-import {readNonDeterministicAutomaton} from "../readGrammar";
+import {WriteDeterministicAutomaton} from "../writeAutomaton.ts";
+import {determinate} from "../task1/determinator.ts";
+import {readNonDeterministicAutomaton} from "../readGrammar.ts";
 
 function NKAToDKA(input: string, output: string): void {
 	const automation = readNonDeterministicAutomaton(input)

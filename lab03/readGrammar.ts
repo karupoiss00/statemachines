@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import {Grammar, GrammarType, NonDeterministicAutomaton, NonDeterministicMoves, Rules} from "./grammar";
+import {Grammar, GrammarType, NonDeterministicAutomaton, NonDeterministicMoves, Rules} from "./grammar.ts";
 import {parse} from "csv-parse/sync";
 
 function get<K, V>(maps: Map<K, V>, key: K): V | undefined {

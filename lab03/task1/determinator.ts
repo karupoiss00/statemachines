@@ -1,5 +1,5 @@
-import {DeterministicAutomaton, DeterministicMoves, NonDeterministicAutomaton} from "../grammar";
-import {get, set} from "../readGrammar";
+import {DeterministicAutomaton, DeterministicMoves, NonDeterministicAutomaton} from "../grammar.ts";
+import {get, set} from "../readGrammar.ts";
 
 type state = {
 	final: boolean

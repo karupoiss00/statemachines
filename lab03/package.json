@@ -1,0 +1,8 @@
+{
+  "name": "lab03",
+  "type": "module",
+  "scripts": {
+    "task1": "ts-node-esm ./task1/task1.ts left ./task1/input.txt ./task1/output.csv",
+    "task2": "ts-node-esm ./task2/task2.ts ./task2/input.csv ./task2/output.csv"
+  }
+}

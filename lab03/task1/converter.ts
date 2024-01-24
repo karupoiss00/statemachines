@@ -1,7 +1,7 @@
-import {get, readGrammar, set} from "../readGrammar";
-import {Grammar, GrammarType, NonDeterministicAutomaton, NonDeterministicMoves} from "../grammar";
-import {determinate} from "./determinator";
-import {WriteDeterministicAutomaton} from "../writeAutomaton";
+import {get, readGrammar, set} from "../readGrammar.ts";
+import {Grammar, GrammarType, NonDeterministicAutomaton, NonDeterministicMoves} from "../grammar.ts";
+import {determinate} from "./determinator.ts";
+import {WriteDeterministicAutomaton} from "../writeAutomaton.ts";
 
 function convert(grammarType: string, inputFilename: string, outputFilename: string) {
 	const type = stringToGrammarType(grammarType)
